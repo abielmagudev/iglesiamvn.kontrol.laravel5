@@ -1,0 +1,28 @@
+<?php
+
+return array(
+    'Esposo',
+    'Esposa',
+    'Padre',
+    'Madre',
+    'Hijo',
+    'Hija',
+    'Hermano',
+    'Hermana',
+    'Tio',
+    'Tia',
+    'Sobrino',
+    'Sobrina',
+    'Abuelo',
+    'Abuela',
+    'Nieto',
+    'Nieta',
+    'Bisabuelo',
+    'Bisabuela',
+    'Padrastro',
+    'Madrastra',
+    'Hijastro',
+    'Hijastra',
+    'Hermanastro',
+    'Hermanastra',
+);
