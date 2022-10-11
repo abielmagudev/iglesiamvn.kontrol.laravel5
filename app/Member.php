@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Storage;
 
 class Member extends Model
 {
+   protected $table = 'members';
+
    public static $all_marital_status = [
       'singular' => [
          'f' => 'soltera',
@@ -33,10 +35,6 @@ class Member extends Model
          'm' => 'unido',
       ],
    ];
-
-   protected $table = 'members';
-
-   // public $timestamps = true;
    
    protected $fillable = [
       'address',
