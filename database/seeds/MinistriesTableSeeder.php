@@ -11,6 +11,6 @@ class MinistriesTableSeeder extends Seeder
      */
     public function run()
     {
-       factory(App\Ministry::class, 10)->create();
+       factory(App\Ministry::class, 7)->create();
     }
 }

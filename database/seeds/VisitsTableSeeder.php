@@ -11,6 +11,6 @@ class VisitsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Visit::class, 35)->create();
+        factory(App\Visit::class, mt_rand(5, 225))->create();
     }
 }

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use App\Member;
 
 class CreateMembersTable extends Migration
 {
@@ -14,24 +15,16 @@ class CreateMembersTable extends Migration
     public function up()
     {
         Schema::create('members', function (Blueprint $table) {
-            
             $table->increments('id');
             
             // Personal
-            $table->string('names');
-            $table->string('lastnames');
+            $table->string('name');
+            $table->string('lastname');
             $table->string('fullname');
             $table->enum('gender', ['f','m']);
             $table->date('birthday')->nullable();
             $table->string('citizenship')->nullable();
-            $table->enum('marital_status', [
-                'singular',
-                'matrimonio',
-                'separacion',
-                'divorcio',
-                'viudez',
-                'union libre',
-            ])->nullable();
+            $table->enum('marital_status', Member::allMaritalStatus())->nullable();
            
             // Contact
             $table->string('address', 200)->nullable();
@@ -47,11 +40,19 @@ class CreateMembersTable extends Migration
             // Additional
             $table->text('professions')->nullable();
             $table->text('occupations')->nullable();
-            // $table->text('notes')->nullable();
+            $table->text('notes')->nullable();
            
-            $table->date('registered');
+            $table->date('registered_at');
             $table->unsignedTinyInteger('is_active');
             $table->timestamps();
+
+            // Indexes
+            $table->index([
+                'fullname', 
+                'marital_status',
+                'homephone', 
+                'mobilephone'
+            ]);
         });
     }
 
