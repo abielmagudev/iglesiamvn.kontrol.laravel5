@@ -7,7 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Ministry extends Model
 {
    protected $table = 'ministries';
-   public $timestamps = true;
+
+   public static $positions = [
+      'lider',
+      'sublider',
+      'asistente'
+   ];
+
    protected $fillable = [
       'name',
       'description'
