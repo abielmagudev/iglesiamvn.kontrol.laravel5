@@ -7,8 +7,37 @@ use Illuminate\Support\Facades\Storage;
 
 class Member extends Model
 {
+   public static $all_marital_status = [
+      'singular' => [
+         'f' => 'soltera',
+         'm' => 'soltero',
+      ],
+      'matrimonio' => [
+         'f' => 'casada',
+         'm' => 'casado',
+      ],
+      'separacion' => [
+         'f' => 'separada',
+         'm' => 'separado',
+      ],
+      'divorcio' => [
+         'f' => 'divorciada',
+         'm' => 'divorciado',
+      ],
+      'viudez' => [
+         'f' => 'viuda',
+         'm' => 'viudo',
+      ],
+      'union libre' => [
+         'f' => 'unida',
+         'm' => 'unido',
+      ],
+   ];
+
    protected $table = 'members';
-   public $timestamps = true;
+
+   // public $timestamps = true;
+   
    protected $fillable = [
       'address',
       'birthday',
@@ -21,19 +50,37 @@ class Member extends Model
       'gender',
       'homephone',
       'is_active',
-      'lastnames', 
+      'lastname', 
       'marital_status',
       'mobilephone',
-      'names', 
+      'name', 
       'occupations',
       'postcode',
       'professions',
-      'registered',
-      'state',
+      'registered_at',
+      'is_active',
    ];
 
-   protected $dates = ['birthday','registered'];
+   protected $dates = [
+      'birthday',
+      'registered_at'
+   ];
    
+   public static function allMaritalStatus()
+   {
+      return array_keys( self::$all_marital_status );
+   }
+
+   public function getEstadoCivilAttribute()
+   {
+      if( is_null($this->marital_status) )
+         return 'desconocido';
+
+      $marital_status = self::$all_marital_status[ $this->marital_status ]; 
+
+      return $marital_status[ $this->gender ];
+   }
+
    public function hisFamily()
    {
       return $this->belongsToMany(Member::class, 'member_family', 'member_id', 'family_id')
