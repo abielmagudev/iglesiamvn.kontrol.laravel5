@@ -10,21 +10,18 @@ class DashboardController extends Controller
 {
 	public function index()
 	{
-		$month = (object) [
-			'key' => Calendario::mesActual(),
-			'name' => Calendario::mesActual(true),
-		];
+		$mes = Calendario::instanciaMes();
 
 		$members = Member::selectWithBirthday()->get();
 
-		$happy_birthdays = $members->filter(function ($member) use ($month) {
-			return $member->mes_nacimiento == $month->key;
+		$happy_birthdays = $members->filter(function ($member) use ($mes) {
+			return $member->mes_nacimiento == $mes->clave;
 		});
 
 		return view('dashboard.index', [
 			'happy_birthdays' => $happy_birthdays->sortBy('birthday'),
 			'members' => $members,
-			'month' => $month,
+			'mes' => $mes,
 			'visits' => Visit::all(),
 		]);
 	}

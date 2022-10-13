@@ -2,7 +2,7 @@
     <div class="card-header">
         <div class="card-header-title">
             <span class="tag is-dark">{{ $happy_birthdays->count() }}</span>
-            <span class='ml-3'>Cumpleaños de {{ $month->name }}</span>
+            <span class='ml-3'>Cumpleaños de {{ $mes->nombre }}</span>
         </div>
     </div>
     <div class="card-content">

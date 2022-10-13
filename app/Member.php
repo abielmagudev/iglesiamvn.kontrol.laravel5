@@ -122,7 +122,7 @@ class Member extends Model
 
    public function isHappyBirthday()
    {
-      return $this->codigoDiaMesNacimiento() == Calendario::codigoDiaMesActual();
+      return $this->codigoDiaMesNacimiento() == Calendario::codigoDiaMes();
    }
 
 
