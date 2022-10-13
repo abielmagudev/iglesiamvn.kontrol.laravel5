@@ -5,9 +5,7 @@ use App\Member;
 $factory->define(Member::class, function (Faker\Generator $faker) {
 
     $name = $faker->firstName();
-
     $lastname = $faker->lastName();
-    
     $fullname = implode(' ', [$name, $lastname]);
    
     return [
@@ -15,10 +13,10 @@ $factory->define(Member::class, function (Faker\Generator $faker) {
        'name' => $name,
        'lastname' => $lastname,
        'fullname' => $fullname,
-       'gender' => $faker->randomElement(['f', 'm']),
        'birthday' => $faker->date($format = 'Y-m-d', $max = 'now'),
        'citizenship' => $faker->country(),
-       'marital_status' => $faker->randomElement(Member::allMaritalStatus()),
+       'gender' => $faker->randomElement(Member::genderKeys()),
+       'marital_status' => $faker->randomElement(Member::maritalStatusKeys()),
        
        // Contact
        'address' => $faker->streetAddress(),

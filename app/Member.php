@@ -11,6 +11,11 @@ class Member extends Model
 {
    protected $table = 'members';
 
+   public static $all_genders = [
+      'f' => 'female',
+      'm' => 'male',
+   ];
+
    public static $all_marital_status = [
       'singular' => [
          'f' => 'soltera',
@@ -117,12 +122,12 @@ class Member extends Model
 
    // Mutators
 
-   public function setNameAttribute($value)
+   public function _setNameAttribute($value)
    {
       return ucwords( strtolower($value) );
    }
 
-   public function setLastnameAttribute($value)
+   public function _setLastnameAttribute($value)
    {
       return ucwords( strtolower($value) );
    }
@@ -168,7 +173,12 @@ class Member extends Model
 
    // Statics
 
-   public static function allMaritalStatus()
+   public static function genderKeys()
+   {
+      return array_keys( self::$all_genders );
+   }
+
+   public static function maritalStatusKeys()
    {
       return array_keys( self::$all_marital_status );
    }

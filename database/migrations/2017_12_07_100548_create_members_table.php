@@ -21,10 +21,10 @@ class CreateMembersTable extends Migration
             $table->string('name');
             $table->string('lastname');
             $table->string('fullname');
-            $table->enum('gender', ['f','m']);
             $table->date('birthday')->nullable();
             $table->string('citizenship')->nullable();
-            $table->enum('marital_status', Member::allMaritalStatus())->nullable();
+            $table->enum('gender', Member::genderKeys());
+            $table->enum('marital_status', Member::maritalStatusKeys())->nullable();
            
             // Contact
             $table->string('address', 200)->nullable();
