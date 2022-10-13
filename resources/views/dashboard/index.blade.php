@@ -1,7 +1,7 @@
 @extends('main')
 @section('title', 'Dashboard')
 @section('content')
-    @include('dashboard.index.members-count')
-    @include('dashboard.index.visits-count')
-    @include('dashboard.index.members-birthday')
+    @include('dashboard.index.contadores')
+    @include('dashboard.index.contadores-visitas')
+    @include('dashboard.index.cumpleanos')
 @endsection

@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use App\Ahex\Tool\Calendario;
+use DB;
 
 class Member extends Model
 {
@@ -63,11 +65,9 @@ class Member extends Model
       'birthday',
       'registered_at'
    ];
-   
-   public static function allMaritalStatus()
-   {
-      return array_keys( self::$all_marital_status );
-   }
+
+
+   // Accesors (Attributes)
 
    public function getEstadoCivilAttribute()
    {
@@ -78,6 +78,68 @@ class Member extends Model
 
       return $marital_status[ $this->gender ];
    }
+
+   public function getDiaNacimientoAttribute()
+   {
+      return $this->birthday->day;
+   }
+
+   public function getMesNacimientoAttribute()
+   {
+      return $this->birthday->month;
+   }
+
+   public function getAnioNacimientoAttribute()
+   {
+      return $this->birthday->year;
+   }
+
+   public function codigoDiaMesNacimiento()
+   {
+      return $this->dia_nacimiento . $this->mes_nacimiento;
+   }
+
+   public function isMale()
+   {
+      return $this->gender == 'm';
+   }
+
+   public function isFemale()
+   {
+      return $this->gender == 'f';
+   }
+
+   public function isHappyBirthday()
+   {
+      return $this->codigoDiaMesNacimiento() == Calendario::codigoDiaMesActual();
+   }
+
+
+   // Mutators
+
+   public function setNameAttribute($value)
+   {
+      return ucwords( strtolower($value) );
+   }
+
+   public function setLastnameAttribute($value)
+   {
+      return ucwords( strtolower($value) );
+   }
+
+
+   // Scopes
+
+   public static function selectWithFormattedBirthday()
+   {
+      return self::select([
+			'*',
+			DB::raw('DATE_FORMAT(birthday, "%d-%m-%Y") AS formatted_birthday')
+		]);
+   }
+
+
+   // Relationships
 
    public function hisFamily()
    {
@@ -103,25 +165,11 @@ class Member extends Model
       return $this->belongsToMany(Ministry::class)->withPivot('id', 'position', 'description');
    }
 
-   public function _setFirstnamesAttribute($value)
-   {
-      return ucwords( strtolower($value) );
-   }
 
-   public function _setLastnamesAttribute($value)
-   {
-      return ucwords( strtolower($value) );
-   }
+   // Statics
 
-   public function getPictureSrc()
+   public static function allMaritalStatus()
    {
-      $picture_path = '/pictures/';
-                                        // Storage::disk('public') with link-symbolic
-      if( !is_null($this->picture_file) && Storage::disk('pictures')->exists($this->picture_file) )
-      {
-         return $picture_path.$this->picture_file;
-      }
-
-      return $this->gender === 'm' ? $picture_path.'male.jpg' : $picture_path.'female.jpg';
+      return array_keys( self::$all_marital_status );
    }
 }

@@ -2,37 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Member;
-use App\Ministry;
 use App\Visit;
+use App\Ahex\Tool\Calendario;
 
 class DashboardController extends Controller
 {
-	public function index ()
+	public function index()
 	{
-		$members = Member::all();
-		$birthdays = collect([]);
-		$today = new \DateTime;
+		$month = (object) [
+			'key' => Calendario::mesActual(),
+			'name' => Calendario::mesActual(true),
+		];
 
-		// Filter all birthdays of month current
-		foreach($members as $member)
-		{
-			$instace_birthday = new \DateTime( $member->birthday );
-			if( $instace_birthday->format('n') <> $today->format('n') ) 
-				continue;
+		$members = Member::selectWithFormattedBirthday()->get();
 
-			$member->birth_day = $instace_birthday->format('d');
-			$member->birth_year = $instace_birthday->format('y');
-			$birthdays->push($member);
-		}
+		$happy_birthdays = $members->filter(function ($member) use ($month) {
+			return $member->mes_nacimiento == $month->key;
+		});
 
 		return view('dashboard.index', [
-			'months'    => config('kontrol.months'),
-			'members'   => $members,
-			'birthdays' => $birthdays->sortBy('birth_day'),
-			'today'		=> $today,
-			'visits'    => Visit::all(),
+			'happy_birthdays' => $happy_birthdays->sortBy('formatted_birthday'),
+			'members' => $members,
+			'month' => $month,
+			'visits' => Visit::all(),
 		]);
 	}
 }
