@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use App\Ahex\Tool\Calendario;
+use App\Ahex\Tools\Calendario;
 use DB;
 
 class Member extends Model
@@ -172,7 +172,7 @@ class Member extends Model
    }
 
 
-   
+
    // Relationships
 
    public function hisFamily()

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Ahex\Tool;
+namespace App\Ahex\Tools;
 
 class Calendario
 {

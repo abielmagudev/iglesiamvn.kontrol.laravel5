@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Member;
 use App\Visit;
-use App\Ahex\Tool\Calendario;
+use App\Ahex\Tools\Calendario;
 
 class DashboardController extends Controller
 {
