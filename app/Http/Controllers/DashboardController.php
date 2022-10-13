@@ -15,14 +15,14 @@ class DashboardController extends Controller
 			'name' => Calendario::mesActual(true),
 		];
 
-		$members = Member::selectWithFormattedBirthday()->get();
+		$members = Member::selectWithBirthday()->get();
 
 		$happy_birthdays = $members->filter(function ($member) use ($month) {
 			return $member->mes_nacimiento == $month->key;
 		});
 
 		return view('dashboard.index', [
-			'happy_birthdays' => $happy_birthdays->sortBy('formatted_birthday'),
+			'happy_birthdays' => $happy_birthdays->sortBy('birthday'),
 			'members' => $members,
 			'month' => $month,
 			'visits' => Visit::all(),

@@ -13,10 +13,9 @@ $factory->define(Member::class, function (Faker\Generator $faker) {
        'name' => $name,
        'lastname' => $lastname,
        'fullname' => $fullname,
-       'birthday' => $faker->date($format = 'Y-m-d', $max = 'now'),
-       'citizenship' => $faker->country(),
        'gender' => $faker->randomElement(Member::genderKeys()),
-       'marital_status' => $faker->randomElement(Member::maritalStatusKeys()),
+       'date_birth' => $faker->date($format = 'Y-m-d', $max = 'now'),
+       'place_birth' => $faker->country(),
        
        // Contact
        'address' => $faker->streetAddress(),
@@ -30,11 +29,13 @@ $factory->define(Member::class, function (Faker\Generator $faker) {
        'emergency' => $faker->phoneNumber,
        
        // Additional
+       'marital_status' => $faker->randomElement(Member::maritalStatusKeys()),
        'professions' => $faker->jobTitle(),
        'occupations' => $faker->jobTitle(),
        'notes' => $faker->sentence,
        
+       // Instance
        'registered_at' => $faker->date($format = 'Y-m-d', $max = 'now'),
-       'is_active' => $faker->numberBetween(0, 1)
+       'is_active' => $faker->numberBetween(0, 1),
     ];
 });

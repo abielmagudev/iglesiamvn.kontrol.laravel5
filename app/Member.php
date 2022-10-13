@@ -44,30 +44,36 @@ class Member extends Model
    ];
    
    protected $fillable = [
-      'address',
-      'birthday',
-      'citizenship',
-      'city',
-      'country',
-      'email',
-      'emergency',
+      // Personal
+      'name', 
+      'lastname', 
       'fullname', 
       'gender',
-      'homephone',
-      'is_active',
-      'lastname', 
-      'marital_status',
-      'mobilephone',
-      'name', 
-      'occupations',
+      'date_birth',
+      'place_birth',
+
+      // Contact
+      'address',
       'postcode',
+      'city',
+      'state',
+      'country',
+      'email',
+      'mobilephone',
+      'homephone',
+      'emergency',
+      
+      // Additional
+      'marital_status',
       'professions',
+      'occupations',
+      'notes',
       'registered_at',
       'is_active',
    ];
 
    protected $dates = [
-      'birthday',
+      'date_birth',
       'registered_at'
    ];
 
@@ -86,17 +92,17 @@ class Member extends Model
 
    public function getDiaNacimientoAttribute()
    {
-      return $this->birthday->day;
+      return $this->date_birth->day;
    }
 
    public function getMesNacimientoAttribute()
    {
-      return $this->birthday->month;
+      return $this->date_birth->month;
    }
 
    public function getAnioNacimientoAttribute()
    {
-      return $this->birthday->year;
+      return $this->date_birth->year;
    }
 
    public function codigoDiaMesNacimiento()
@@ -135,11 +141,11 @@ class Member extends Model
 
    // Scopes
 
-   public static function selectWithFormattedBirthday()
+   public static function selectWithBirthday()
    {
       return self::select([
 			'*',
-			DB::raw('DATE_FORMAT(birthday, "%d-%m-%Y") AS formatted_birthday')
+			DB::raw('DATE_FORMAT(date_birth, "%d-%m-%Y") AS birthday')
 		]);
    }
 
