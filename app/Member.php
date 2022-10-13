@@ -126,19 +126,6 @@ class Member extends Model
    }
 
 
-   // Mutators
-
-   public function _setNameAttribute($value)
-   {
-      return ucwords( strtolower($value) );
-   }
-
-   public function _setLastnameAttribute($value)
-   {
-      return ucwords( strtolower($value) );
-   }
-
-
    // Scopes
 
    public static function sortByBirthday()
