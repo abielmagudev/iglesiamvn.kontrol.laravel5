@@ -80,7 +80,32 @@ class Member extends Model
 
    // Accesors (Attributes)
 
-   public function getEstadoCivilAttribute()
+   public function getYearBirthAttribute()
+   {
+      return $this->date_birth->year;
+   }
+
+   public function getMonthBirthAttribute()
+   {
+      return $this->date_birth->month;
+   }
+
+   public function getDayBirthAttribute()
+   {
+      return $this->date_birth->day;
+   }
+
+   public function codeDayMonthBirth()
+   {
+      return $this->day_birth . $this->month_birth;
+   }
+
+   public function isHappyBirthday()
+   {
+      return $this->codeDayMonthBirth() == Calendario::codigoDiaMes();
+   }
+
+   public function getMarialStatusHimselfAttribute()
    {
       if( is_null($this->marital_status) )
          return 'desconocido';
@@ -88,26 +113,6 @@ class Member extends Model
       $marital_status = self::$all_marital_status[ $this->marital_status ]; 
 
       return $marital_status[ $this->gender ];
-   }
-
-   public function getDiaNacimientoAttribute()
-   {
-      return $this->date_birth->day;
-   }
-
-   public function getMesNacimientoAttribute()
-   {
-      return $this->date_birth->month;
-   }
-
-   public function getAnioNacimientoAttribute()
-   {
-      return $this->date_birth->year;
-   }
-
-   public function codigoDiaMesNacimiento()
-   {
-      return $this->dia_nacimiento . $this->mes_nacimiento;
    }
 
    public function isMale()
@@ -118,11 +123,6 @@ class Member extends Model
    public function isFemale()
    {
       return $this->gender == 'f';
-   }
-
-   public function isHappyBirthday()
-   {
-      return $this->codigoDiaMesNacimiento() == Calendario::codigoDiaMes();
    }
 
 
@@ -141,12 +141,12 @@ class Member extends Model
 
    // Scopes
 
-   public static function selectWithBirthday()
+   public static function sortByBirthday()
    {
-      return self::select([
-			'*',
-			DB::raw('DATE_FORMAT(date_birth, "%d-%m-%Y") AS birthday')
-		]);
+      $alias = 'first_day_birth';
+
+      return self::select(['*', DB::raw("DATE_FORMAT(date_birth, '%d-%m-%Y') AS {$alias}")])
+                  ->orderBy($alias);
    }
 
 

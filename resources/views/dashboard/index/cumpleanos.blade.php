@@ -19,7 +19,7 @@
                 <tbody>
                     @foreach($happy_birthdays as $member)
                     <tr class="{{ $member->isHappyBirthday() ? 'has-text-weight-bold has-background-link-light' : '' }}">
-                        <td>{{ $member->dia_nacimiento }}</td>
+                        <td>{{ $member->day_birth }}</td>
                         <td style="white-space:nowrap">
                             <a href="{{ route('members.show', $member) }}">{{ $member->fullname }}</a>
                         </td>

@@ -12,10 +12,10 @@ class DashboardController extends Controller
 	{
 		$mes = Calendario::instanciaMes();
 
-		$members = Member::selectWithBirthday()->orderBy('birthday')->get();
+		$members = Member::sortByBirthday()->get();
 
 		$happy_birthdays = $members->filter(function ($member) use ($mes) {
-			return $member->mes_nacimiento == $mes->clave;
+			return $member->month_birth == $mes->clave;
 		});
 
 		return view('dashboard.index', [
