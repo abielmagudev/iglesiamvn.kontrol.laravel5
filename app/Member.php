@@ -9,6 +9,8 @@ use DB;
 
 class Member extends Model
 {
+   const PHOTOS_PATH = 'photos';
+
    protected $table = 'members';
 
    public static $all_genders = [
@@ -78,6 +80,21 @@ class Member extends Model
    ];
 
 
+
+   // Statics
+
+   public static function genderKeys()
+   {
+      return array_keys( self::$all_genders );
+   }
+
+   public static function maritalStatusKeys()
+   {
+      return array_keys( self::$all_marital_status );
+   }
+
+
+
    // Accesors (Attributes)
 
    public function getYearBirthAttribute()
@@ -99,12 +116,7 @@ class Member extends Model
    {
       return $this->day_birth . $this->month_birth;
    }
-
-   public function isHappyBirthday()
-   {
-      return $this->codeDayMonthBirth() == Calendario::codigoDiaMes();
-   }
-
+   
    public function getMarialStatusHimselfAttribute()
    {
       if( is_null($this->marital_status) )
@@ -115,6 +127,23 @@ class Member extends Model
       return $marital_status[ $this->gender ];
    }
 
+   public function getPhotoUrlAttribute()
+   {
+      // Storage::disk('public') with link-symbolic
+      if(! Storage::disk( self::PHOTOS_PATH )->exists( $this->picture_file ) )
+      {
+         $picture = $this->isMale() ? 'male.jpg' : 'female.jpg';
+
+         return implode('/', [self::PHOTOS_PATH, $picture]);
+      }
+      
+      return implode('/', [self::PHOTOS_PATH, $this->picture_file]);
+   }
+
+
+
+   // Validations
+
    public function isMale()
    {
       return $this->gender == 'm';
@@ -124,6 +153,12 @@ class Member extends Model
    {
       return $this->gender == 'f';
    }
+
+   public function isHappyBirthday()
+   {
+      return $this->codeDayMonthBirth() == Calendario::codigoDiaMes();
+   }
+
 
 
    // Scopes
@@ -137,6 +172,7 @@ class Member extends Model
    }
 
 
+   
    // Relationships
 
    public function hisFamily()
@@ -161,18 +197,5 @@ class Member extends Model
    public function ministries()
    {
       return $this->belongsToMany(Ministry::class)->withPivot('id', 'position', 'description');
-   }
-
-
-   // Statics
-
-   public static function genderKeys()
-   {
-      return array_keys( self::$all_genders );
-   }
-
-   public static function maritalStatusKeys()
-   {
-      return array_keys( self::$all_marital_status );
    }
 }
