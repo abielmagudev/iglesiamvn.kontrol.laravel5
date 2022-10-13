@@ -22,7 +22,7 @@
             "App\\": "app/"
         },
         "files": [
-            "app/helpers.php"
+            "app/Ahex/Tool/helpers.php"
         ]
     },
     "autoload-dev": {
